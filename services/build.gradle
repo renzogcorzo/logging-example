@@ -31,8 +31,12 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile('org.springframework.boot:spring-boot-starter-log4j2')
+
+    compile('org.slf4j:slf4j-api:1.7.6')
+    compile('org.slf4j:slf4j-log4j12:1.7.5')
 
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.2.0')
     testCompile('org.junit.jupiter:junit-jupiter-params:5.2.0')
@@ -45,6 +49,8 @@ dependencies {
     testCompile 'io.cucumber:cucumber-junit:' + cucumberVersion
     testCompile 'io.cucumber:cucumber-spring:' + cucumberVersion
 }
+
+configurations { all*.exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j' }
 
 test {
     useJUnitPlatform()

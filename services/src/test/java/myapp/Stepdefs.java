@@ -5,18 +5,15 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import myapp.service.MyAppService;
 import myapp.service.util.logger.MyAppLogFactory;
+import myapp.service.util.logger.impl.FileLogger;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 
 @ContextConfiguration(classes = MyAppServiceTestConfig.class)
@@ -66,7 +63,12 @@ public class Stepdefs {
     @Then("it should log as {string}")
     public void it_should_log_as(String value) {
         if ("info".equalsIgnoreCase(value)) {
-            //verify(logger, atLeastOnce()).info(Mockito.anyString());
+            verify(logger, atLeastOnce()).info(Mockito.anyString());
         }
+    }
+
+    @Then("it should log to file")
+    public void it_should_log_to_file() {
+        Assert.assertTrue("file".equalsIgnoreCase(logger.getLoggingType()));
     }
 }

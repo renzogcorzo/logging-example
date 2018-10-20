@@ -1,6 +1,7 @@
 package myapp.service.util.logger;
 
 import myapp.service.util.logger.impl.ConsoleLogger;
+import myapp.service.util.logger.impl.FileLogger;
 import org.springframework.beans.factory.annotation.Value;
 
 public class MyAppLogFactory implements MyAppLogger {
@@ -15,13 +16,17 @@ public class MyAppLogFactory implements MyAppLogger {
 
     private static MyAppLogger myAppLogger;
 
+    public MyAppLogger getMyAppLogger() {
+        return myAppLogger;
+    }
+
     public MyAppLogFactory(String name) {
         this.name = name;
         setMyAppLogger(name);
     }
 
     public void setLoggingType(String loggingType) {
-        if (loggingType != null && loggingType == "console") {
+        if (loggingType != null) {
             this.loggingType = loggingType;
             setMyAppLogger(this.name);
         }
@@ -29,7 +34,7 @@ public class MyAppLogFactory implements MyAppLogger {
 
     public void setLoggingLevel(String logLevel) {
         if (logLevel != null) {
-            loggingLevel= logLevel;
+            loggingLevel = logLevel;
             setMyAppLogger(this.name);
         }
     }
@@ -65,14 +70,18 @@ public class MyAppLogFactory implements MyAppLogger {
     }
 
     private void setMyAppLogger(String category) {
-        if (loggingType == "console") {
+        if (this.loggingType.equalsIgnoreCase("console")) {
+            myAppLogger = new ConsoleLogger(category);
+        } else if (this.loggingType.equalsIgnoreCase("file")) {
+            myAppLogger = new FileLogger(category);
+        } else {
             myAppLogger = new ConsoleLogger(category);
         }
     }
 
     private LogLevel getLogLevel(String logLevel) {
         LogLevel level = LogLevel.ALL;
-        if(logLevel!= null){
+        if (logLevel != null) {
             switch (logLevel) {
                 case "console": {
                     level = LogLevel.INFO;

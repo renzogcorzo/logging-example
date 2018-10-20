@@ -10,18 +10,22 @@ Feature: Console Logger
     And I run the app
     Then it should not log as "info"
 
-   Scenario: log to console with errors only
+  Scenario: log to console with errors only
+    Given I set the logging level to "error"
+    And I run the app
+    Then it should not log as "info"
+    And it should not log as "warning"
+
+  Scenario: log to file
+    Given I set the logging level to "info"
+    Given I set the logging type to "file"
+    Given I run the app
+    Then it should log to file
+
+   Scenario: log to file as error only
      Given I set the logging level to "error"
+     And I set the logging type to "file"
      And I run the app
      Then it should not log as "info"
      And it should not log as "warning"
-
-    Scenario: log to console with errors only and change to info
-      Given I set the logging level to "error"
-      And I run the app
-      Then it should not log as "info"
-      And it should not log as "warning"
-      Given I set the logging level to "info"
-      And I run the app
-      Then it should log as "info"
 
