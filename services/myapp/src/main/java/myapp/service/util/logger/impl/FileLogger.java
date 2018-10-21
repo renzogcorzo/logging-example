@@ -4,6 +4,10 @@ import myapp.service.util.logger.MyAppLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Created by renzogcorzo on 10/21/2018.
+ */
+
 public class FileLogger implements MyAppLogger {
 
     private final Logger log;

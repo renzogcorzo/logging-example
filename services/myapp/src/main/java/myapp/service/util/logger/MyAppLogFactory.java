@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Created by renzogcorzo on 10/21/2018.
+ */
+
 public class MyAppLogFactory implements MyAppLogger {
 
     private static String loggingLevel;

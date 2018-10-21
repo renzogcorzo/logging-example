@@ -4,6 +4,10 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * Created by renzogcorzo on 10/21/2018.
+ */
+
 @Data
 @Component
 public class EnvProperties {

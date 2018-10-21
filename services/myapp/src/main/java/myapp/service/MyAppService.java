@@ -5,6 +5,10 @@ import myapp.service.util.logger.MyAppLogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Created by renzogcorzo on 10/21/2018.
+ */
+
 @Service
 public class MyAppService {
 

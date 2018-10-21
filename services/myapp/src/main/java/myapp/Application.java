@@ -12,6 +12,10 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import java.util.Arrays;
 
+/**
+ * Created by renzogcorzo on 10/21/2018.
+ */
+
 @SpringBootApplication
 @ComponentScan(basePackages = {"myapp.*"})
 @PropertySource("classpath:application.yml")

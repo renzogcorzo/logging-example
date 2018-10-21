@@ -6,6 +6,10 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Properties;
 
+/**
+ * Created by renzogcorzo on 10/21/2018.
+ */
+
 public class DatabaseLogger implements MyAppLogger {
     private String category;
     private HashMap<String, String> dbParams;

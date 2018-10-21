@@ -6,6 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.*;
 
+/**
+ * Created by renzogcorzo on 10/21/2018.
+ */
+
 public class ConsoleLogger implements MyAppLogger {
     private static Logger logger;
     private static final String DATE_PATTERN = "yyyy/MM/dd hh:mm:ss a";
