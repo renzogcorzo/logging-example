@@ -1,27 +1,28 @@
 package myapp.service.util.logger;
 
+import myapp.model.EnvProperties;
 import myapp.service.util.logger.impl.ConsoleLogger;
+import myapp.service.util.logger.impl.DatabaseLogger;
 import myapp.service.util.logger.impl.FileLogger;
-import org.springframework.beans.factory.annotation.Value;
+
+import java.util.HashMap;
 
 public class MyAppLogFactory implements MyAppLogger {
 
-    @Value("logging.level")
     private static String loggingLevel;
-
-    @Value("logging.type")
     private static String loggingType = "console";
-
     private String name;
+    private EnvProperties environment;
 
-    private static MyAppLogger myAppLogger;
+    private MyAppLogger myAppLogger;
 
     public MyAppLogger getMyAppLogger() {
         return myAppLogger;
     }
 
-    public MyAppLogFactory(String name) {
+    public MyAppLogFactory(String name, EnvProperties environment) {
         this.name = name;
+        this.environment = environment;
         setMyAppLogger(name);
     }
 
@@ -74,7 +75,16 @@ public class MyAppLogFactory implements MyAppLogger {
             myAppLogger = new ConsoleLogger(category);
         } else if (this.loggingType.equalsIgnoreCase("file")) {
             myAppLogger = new FileLogger(category);
-        } else {
+        } else if (this.loggingType.equalsIgnoreCase("database")) {
+            HashMap<String, String> dbParams = new HashMap<>();
+            dbParams.put("userName", environment.getUserName());
+            dbParams.put("password",environment.getPassword());
+            dbParams.put("dbms",environment.getDbms());
+            dbParams.put("portNumber",environment.getPortNumber());
+            dbParams.put("serverName",environment.getServerName());
+
+            myAppLogger = new DatabaseLogger(category, dbParams);
+        }else {
             myAppLogger = new ConsoleLogger(category);
         }
     }

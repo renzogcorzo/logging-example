@@ -1,4 +1,0 @@
-logging:
-  level: INFO
-  type: console
-  fileName: logs/myapp.log

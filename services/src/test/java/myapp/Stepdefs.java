@@ -5,25 +5,31 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import myapp.service.MyAppService;
 import myapp.service.util.logger.MyAppLogFactory;
-import myapp.service.util.logger.impl.FileLogger;
+import myapp.service.util.logger.MyAppLogger;
+import myapp.service.util.logger.impl.DatabaseLogger;
 import org.junit.Assert;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.mockito.Mockito.*;
 
 
-@ContextConfiguration(classes = MyAppServiceTestConfig.class)
+@SpringBootTest(classes = Application.class)
+@ContextConfiguration
+@TestPropertySource("classpath:/application-test.yml")
 public class Stepdefs {
 
     @Autowired
     private MyAppService myAppService;
 
     @Mock
-    MyAppLogFactory logger = MyAppService.logger;
+    private MyAppLogFactory logger;
 
     @Given("I run the app")
     public void i_run_the_app() {
@@ -39,6 +45,17 @@ public class Stepdefs {
     @When("I set the logging type to {string}")
     public void i_set_the_logging_type_to(String loggingType) {
         myAppService.setLoggingType(loggingType);
+        if("database".equalsIgnoreCase(loggingType)){
+            myAppService.setLogger(logger);
+            doNothing().when(logger).info(Mockito.anyString());
+            doNothing().when(logger).warning(Mockito.anyString());
+            doNothing().when(logger).error(Mockito.anyString());
+        }
+        else{
+            myAppService.resetLogger();
+            myAppService.setLoggingType(loggingType);
+        }
+
     }
 
     @Then("it should log to console")
@@ -69,6 +86,13 @@ public class Stepdefs {
 
     @Then("it should log to file")
     public void it_should_log_to_file() {
-        Assert.assertTrue("file".equalsIgnoreCase(logger.getLoggingType()));
+        Assert.assertEquals("file", logger.getLoggingType());
+    }
+
+    @Then("it should log to database")
+    public void it_should_log_to_database() {
+        Assert.assertEquals("database", logger.getLoggingType());
+        verify(logger, atLeastOnce()).info(Mockito.anyString());
+
     }
 }
