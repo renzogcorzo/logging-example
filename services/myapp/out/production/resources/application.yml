@@ -1,0 +1,6 @@
+db:
+  userName: sa
+  password: mysecret
+  portNumber: 1800
+  dbms: mydb
+  serverName: localhost
