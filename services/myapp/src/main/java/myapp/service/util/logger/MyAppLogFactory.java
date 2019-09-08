@@ -4,6 +4,7 @@ import myapp.model.EnvProperties;
 import myapp.service.util.logger.impl.ConsoleLogger;
 import myapp.service.util.logger.impl.DatabaseLogger;
 import myapp.service.util.logger.impl.FileLogger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,10 @@ public class MyAppLogFactory implements MyAppLogger {
     private static String loggingLevel;
     private static List<String> loggingTypes;
     private String name;
+
+    @Autowired
     private EnvProperties environment;
+
     private MyAppLogger consoleLogger = null;
     private MyAppLogger fileLogger = null;;
     private MyAppLogger databaseLogger = null;
